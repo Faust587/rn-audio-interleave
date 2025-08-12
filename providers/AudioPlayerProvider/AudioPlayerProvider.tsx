@@ -6,9 +6,9 @@ import {
   useMemo,
   useRef,
   useState,
-} from "react";
-import { Audio } from "expo-av";
-import { AudioPlayerContext } from "./AudioPlayerProvider.context";
+} from 'react';
+import { Audio } from 'expo-av';
+import { AudioPlayerContext } from './AudioPlayerProvider.context';
 
 export const AudioPlayerProvider: FC<PropsWithChildren> = ({ children }) => {
   const soundRef = useRef<Audio.Sound | null>(null);
@@ -26,7 +26,7 @@ export const AudioPlayerProvider: FC<PropsWithChildren> = ({ children }) => {
       progressUpdateIntervalMillis: 10,
     });
     soundRef.current = sound;
-    sound.setOnPlaybackStatusUpdate((status) => {
+    sound.setOnPlaybackStatusUpdate(status => {
       if (!status.isLoaded) return;
       const s = status;
       setCurrentTimeMs(s.positionMillis);
@@ -67,7 +67,7 @@ export const AudioPlayerProvider: FC<PropsWithChildren> = ({ children }) => {
   const setAudioRate = useCallback(async (rate: number) => {
     if (soundRef.current) {
       await soundRef.current.setRateAsync(rate, true);
-      soundRef.current.setOnPlaybackStatusUpdate((status) => {
+      soundRef.current.setOnPlaybackStatusUpdate(status => {
         if (!status.isLoaded) return;
         const s = status;
         setCurrentTimeMs(s.positionMillis);

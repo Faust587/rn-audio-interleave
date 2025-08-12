@@ -1,19 +1,19 @@
-import { useCallback, useMemo, FC, useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { useCallback, useMemo, FC, useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import {
   PanGestureHandler,
   TapGestureHandler,
   GestureHandlerRootView,
   PanGestureHandlerGestureEvent,
   TapGestureHandlerGestureEvent,
-} from "react-native-gesture-handler";
+} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   runOnJS,
-} from "react-native-reanimated";
-import { useScreenWidth } from "@/hooks";
+} from 'react-native-reanimated';
+import { useScreenWidth } from '@/hooks';
 
 interface ProgressBarProps {
   currentTimeMs: number;
@@ -49,7 +49,7 @@ export const ProgressBar: FC<ProgressBarProps> = ({
     const totalSeconds = Math.floor(ms / 1000);
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   }, []);
 
   const handleSeek = useCallback(
@@ -83,7 +83,7 @@ export const ProgressBar: FC<ProgressBarProps> = ({
 
   const tapGestureHandler =
     useAnimatedGestureHandler<TapGestureHandlerGestureEvent>({
-      onEnd: (event) => {
+      onEnd: event => {
         const tapX = event.x - THUMB_SIZE / 2;
         const clampedX = Math.max(0, Math.min(tapX, sliderWidth - THUMB_SIZE));
         translateX.value = clampedX;
@@ -127,46 +127,46 @@ export const ProgressBar: FC<ProgressBarProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: '100%',
     paddingVertical: 15,
     paddingHorizontal: 20,
   },
   timeContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 10,
   },
   timeText: {
     fontSize: 12,
-    color: "#666",
-    fontWeight: "500",
+    color: '#666',
+    fontWeight: '500',
   },
   sliderContainer: {
     height: 40,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   track: {
     height: 4,
-    backgroundColor: "#E5E5E5",
+    backgroundColor: '#E5E5E5',
     borderRadius: 2,
-    position: "relative",
+    position: 'relative',
   },
   progress: {
     height: 4,
-    backgroundColor: "#8794FF",
+    backgroundColor: '#8794FF',
     borderRadius: 2,
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
   },
   thumb: {
     width: THUMB_SIZE,
     height: THUMB_SIZE,
-    backgroundColor: "#8794FF",
+    backgroundColor: '#8794FF',
     borderRadius: THUMB_SIZE / 2,
-    position: "absolute",
+    position: 'absolute',
     top: -8,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,

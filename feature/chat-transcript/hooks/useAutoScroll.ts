@@ -1,9 +1,9 @@
-import { useRef, useEffect, useState, useCallback, RefObject } from "react";
+import { useRef, useEffect, useState, useCallback, RefObject } from 'react';
 import {
   FlatList,
   NativeScrollEvent,
   NativeSyntheticEvent,
-} from "react-native";
+} from 'react-native';
 
 interface UseAutoScrollConfig {
   activeIndex: number;

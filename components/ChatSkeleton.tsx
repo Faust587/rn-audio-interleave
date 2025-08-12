@@ -1,12 +1,12 @@
-import { FC, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { FC, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withTiming,
   interpolate,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
 interface ChatSkeletonProps {
   count?: number;
@@ -91,29 +91,29 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   messageContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginVertical: 4,
   },
   rightMessage: {
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   skeletonBubble: {
-    backgroundColor: "#F0F0F0",
+    backgroundColor: '#F0F0F0',
     borderRadius: 12,
     padding: 12,
-    maxWidth: "85%",
+    maxWidth: '85%',
   },
   rightBubble: {
-    backgroundColor: "#E8EDFF",
+    backgroundColor: '#E8EDFF',
   },
   skeletonLine: {
     height: 14,
-    backgroundColor: "#E0E0E0",
+    backgroundColor: '#E0E0E0',
     borderRadius: 7,
     marginVertical: 2,
   },
   shortLine: {
-    width: "60%",
+    width: '60%',
   },
   separator: {
     height: 10,

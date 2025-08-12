@@ -1,5 +1,5 @@
-import { FC, ReactElement } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { FC, ReactElement } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 type IconButtonProps = {
   icon: ReactElement;

@@ -1,2 +1,2 @@
-export { AudioPlayerProvider } from "./AudioPlayerProvider";
-export { useAudioPlayer } from "./AudioPlayerProvider.hooks";
+export { AudioPlayerProvider } from './AudioPlayerProvider';
+export { useAudioPlayer } from './AudioPlayerProvider.hooks';

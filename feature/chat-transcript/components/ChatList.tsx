@@ -1,9 +1,9 @@
-import { FC, useCallback } from "react";
-import { ChatMessage } from "@/types";
-import { FlatList, StyleSheet, View } from "react-native";
-import { ChatItem } from "./ChatItem";
-import { useAutoScroll } from "../hooks";
-import { ScrollIndicator } from "@/components";
+import { FC, useCallback } from 'react';
+import { ChatMessage } from '@/types';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { ChatItem } from './ChatItem';
+import { useAutoScroll } from '../hooks';
+import { ScrollIndicator } from '@/components';
 
 type ChatListProps = {
   list: ChatMessage[];
@@ -16,7 +16,7 @@ const renderSeparator = () => <View style={styles.separator} />;
 export const ChatList: FC<ChatListProps> = ({ list, activeMessageId }) => {
   // Find the index of the active message
   const activeMessageIndex = list.findIndex(
-    (item) => item.id === activeMessageId,
+    item => item.id === activeMessageId,
   );
 
   // Use the auto-scroll hook

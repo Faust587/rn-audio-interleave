@@ -1,6 +1,6 @@
-import { FC } from "react";
-import { ChatMessage } from "@/types";
-import { ChatList } from "@/feature/chat-transcript/components";
+import { FC } from 'react';
+import { ChatMessage } from '@/types';
+import { ChatList } from '@/feature/chat-transcript/components';
 
 type ChatTranscriptComponentProps = {
   chatMessages: ChatMessage[];

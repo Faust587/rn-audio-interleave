@@ -1,10 +1,10 @@
-import { StyleSheet } from "react-native";
-import { Stack } from "expo-router";
+import { StyleSheet } from 'react-native';
+import { Stack } from 'expo-router';
 import {
   SafeAreaProvider,
   SafeAreaView,
   initialWindowMetrics,
-} from "react-native-safe-area-context";
+} from 'react-native-safe-area-context';
 
 export default function RootLayout() {
   return (

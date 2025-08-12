@@ -1,7 +1,7 @@
-import { rootAPI } from "@/api";
-import { TranscriptMetadata } from "@/types";
-import audioTranscriptRes from "./mock/audio_transcript.json";
-import audioRes from "./mock/audio.mp3";
+import { rootAPI } from '@/api';
+import { TranscriptMetadata } from '@/types';
+import audioTranscriptRes from './mock/audio_transcript.json';
+import audioRes from './mock/audio.mp3';
 
 type audioApiType = {
   getAudioTranscript: () => Promise<TranscriptMetadata>;

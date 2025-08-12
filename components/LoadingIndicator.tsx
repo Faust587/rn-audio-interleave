@@ -1,5 +1,5 @@
-import { FC, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { FC, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -7,10 +7,10 @@ import Animated, {
   withTiming,
   interpolate,
   Extrapolate,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
 interface LoadingIndicatorProps {
-  size?: "small" | "medium" | "large";
+  size?: 'small' | 'medium' | 'large';
   color?: string;
 }
 
@@ -70,8 +70,8 @@ const Dot: FC<DotProps> = ({ animationProgress, index, size, color }) => {
 };
 
 export const LoadingIndicator: FC<LoadingIndicatorProps> = ({
-  size = "medium",
-  color = "#8794FF",
+  size = 'medium',
+  color = '#8794FF',
 }) => {
   const animationProgress = useSharedValue(0);
   const containerSize = SIZES[size];
@@ -109,13 +109,13 @@ export const LoadingIndicator: FC<LoadingIndicatorProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   dotContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   dot: {
     borderRadius: 100,
