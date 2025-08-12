@@ -15,17 +15,10 @@ const renderSeparator = () => <View style={styles.separator} />;
 
 export const ChatList: FC<ChatListProps> = ({ list, activeMessageId }) => {
   // Find the index of the active message
-  const activeMessageIndex = list.findIndex(
-    item => item.id === activeMessageId,
-  );
+  const activeMessageIndex = list.findIndex(item => item.id === activeMessageId);
 
   // Use the auto-scroll hook
-  const {
-    flatListRef,
-    isUserScrolling,
-    handleScroll,
-    handleScrollToIndexFailed,
-  } = useAutoScroll({
+  const { flatListRef, isUserScrolling, handleScroll, handleScrollToIndexFailed } = useAutoScroll({
     activeIndex: activeMessageIndex,
     scrollThreshold: 50,
     autoScrollDisableDuration: 3000,

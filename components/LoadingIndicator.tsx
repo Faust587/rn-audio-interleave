@@ -1,5 +1,7 @@
 import { FC, useEffect } from 'react';
+
 import { View, StyleSheet } from 'react-native';
+
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -34,19 +36,9 @@ const Dot: FC<DotProps> = ({ animationProgress, index, size, color }) => {
     const delay = index * 0.15;
     const progress = (animationProgress.value + delay) % 1;
 
-    const scale = interpolate(
-      progress,
-      [0, 0.5, 1],
-      [0.8, 1.2, 0.8],
-      Extrapolate.CLAMP,
-    );
+    const scale = interpolate(progress, [0, 0.5, 1], [0.8, 1.2, 0.8], Extrapolate.CLAMP);
 
-    const opacity = interpolate(
-      progress,
-      [0, 0.5, 1],
-      [0.4, 1, 0.4],
-      Extrapolate.CLAMP,
-    );
+    const opacity = interpolate(progress, [0, 0.5, 1], [0.4, 1, 0.4], Extrapolate.CLAMP);
 
     return {
       transform: [{ scale }],
@@ -78,11 +70,7 @@ export const LoadingIndicator: FC<LoadingIndicatorProps> = ({
   const dotSize = containerSize * 0.25;
 
   useEffect(() => {
-    animationProgress.value = withRepeat(
-      withTiming(1, { duration: 1200 }),
-      -1,
-      false,
-    );
+    animationProgress.value = withRepeat(withTiming(1, { duration: 1200 }), -1, false);
   }, [animationProgress]);
 
   const containerStyle = useAnimatedStyle(() => ({

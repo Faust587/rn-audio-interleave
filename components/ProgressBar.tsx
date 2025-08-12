@@ -1,18 +1,22 @@
-import { useCallback, useMemo, FC, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { FC, useCallback, useEffect, useMemo } from 'react';
+
+import { StyleSheet, Text, View } from 'react-native';
+
 import {
-  PanGestureHandler,
-  TapGestureHandler,
   GestureHandlerRootView,
+  PanGestureHandler,
   PanGestureHandlerGestureEvent,
+  TapGestureHandler,
   TapGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
 import Animated, {
+  runOnJS,
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
-  runOnJS,
 } from 'react-native-reanimated';
+
+import { Colors } from '@/const/colors';
 import { useScreenWidth } from '@/hooks';
 
 interface ProgressBarProps {
@@ -22,11 +26,7 @@ interface ProgressBarProps {
 }
 const THUMB_SIZE = 20;
 
-export const ProgressBar: FC<ProgressBarProps> = ({
-  currentTimeMs,
-  durationMs,
-  onSeek,
-}) => {
+export const ProgressBar: FC<ProgressBarProps> = ({ currentTimeMs, durationMs, onSeek }) => {
   const screenWidth = useScreenWidth();
   const sliderWidth = useMemo(() => screenWidth - 40, [screenWidth]);
   const translateX = useSharedValue(0);
@@ -81,15 +81,14 @@ export const ProgressBar: FC<ProgressBarProps> = ({
     },
   });
 
-  const tapGestureHandler =
-    useAnimatedGestureHandler<TapGestureHandlerGestureEvent>({
-      onEnd: event => {
-        const tapX = event.x - THUMB_SIZE / 2;
-        const clampedX = Math.max(0, Math.min(tapX, sliderWidth - THUMB_SIZE));
-        translateX.value = clampedX;
-        runOnJS(handleSeek)(clampedX);
-      },
-    });
+  const tapGestureHandler = useAnimatedGestureHandler<TapGestureHandlerGestureEvent>({
+    onEnd: event => {
+      const tapX = event.x - THUMB_SIZE / 2;
+      const clampedX = Math.max(0, Math.min(tapX, sliderWidth - THUMB_SIZE));
+      translateX.value = clampedX;
+      runOnJS(handleSeek)(clampedX);
+    },
+  });
 
   const thumbStyle = useAnimatedStyle(() => {
     return {
@@ -138,7 +137,7 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 12,
-    color: '#666',
+    color: Colors.text.secondary,
     fontWeight: '500',
   },
   sliderContainer: {
@@ -147,13 +146,13 @@ const styles = StyleSheet.create({
   },
   track: {
     height: 4,
-    backgroundColor: '#E5E5E5',
+    backgroundColor: Colors.gray.medium,
     borderRadius: 2,
     position: 'relative',
   },
   progress: {
     height: 4,
-    backgroundColor: '#8794FF',
+    backgroundColor: Colors.primary,
     borderRadius: 2,
     position: 'absolute',
     top: 0,
@@ -162,11 +161,11 @@ const styles = StyleSheet.create({
   thumb: {
     width: THUMB_SIZE,
     height: THUMB_SIZE,
-    backgroundColor: '#8794FF',
+    backgroundColor: Colors.primary,
     borderRadius: THUMB_SIZE / 2,
     position: 'absolute',
     top: -8,
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOffset: {
       width: 0,
       height: 2,

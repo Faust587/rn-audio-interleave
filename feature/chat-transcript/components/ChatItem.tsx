@@ -4,12 +4,7 @@ import { ChatMessage } from '@/types';
 
 type ChatItemProps = ChatMessage & { isActive?: boolean };
 
-const ChatItemComponent: FC<ChatItemProps> = ({
-  speaker,
-  message,
-  right,
-  isActive,
-}) => {
+const ChatItemComponent: FC<ChatItemProps> = ({ speaker, message, right, isActive }) => {
   return (
     <View
       style={StyleSheet.flatten([

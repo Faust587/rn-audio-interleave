@@ -1,18 +1,16 @@
 import { FC } from 'react';
-import { Text, StyleSheet } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  withTiming,
-  interpolateColor,
-} from 'react-native-reanimated';
+
+import { StyleSheet, Text } from 'react-native';
+
+import Animated, { interpolateColor, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+
+import { Colors } from '@/const/colors';
 
 interface ScrollIndicatorProps {
   isUserScrolling: boolean;
 }
 
-export const ScrollIndicator: FC<ScrollIndicatorProps> = ({
-  isUserScrolling,
-}) => {
+export const ScrollIndicator: FC<ScrollIndicatorProps> = ({ isUserScrolling }) => {
   const animatedStyle = useAnimatedStyle(() => {
     const opacity = withTiming(isUserScrolling ? 1 : 0, { duration: 200 });
     const backgroundColor = interpolateColor(
@@ -49,7 +47,7 @@ const styles = StyleSheet.create({
     zIndex: 1000,
   },
   text: {
-    color: 'white',
+    color: Colors.text.light,
     fontSize: 12,
     fontWeight: '600',
   },

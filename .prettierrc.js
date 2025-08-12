@@ -7,14 +7,16 @@ module.exports = {
   tabWidth: 2,
   useTabs: false,
 
-  // JSX specific
-  jsxSingleQuote: false,
-  bracketSameLine: false,
+  // JSX specific (React Native optimized)
+  jsxSingleQuote: false, // Use double quotes for JSX attributes
+  bracketSameLine: false, // Put JSX closing bracket on new line
+  htmlWhitespaceSensitivity: 'css', // Respect whitespace in JSX
 
-  // React Native specific
-  bracketSpacing: true,
-  arrowParens: 'avoid',
-  endOfLine: 'lf',
+  // React Native specific formatting
+  bracketSpacing: true, // { foo } instead of {foo}
+  arrowParens: 'avoid', // x => x instead of (x) => x (common in RN)
+  endOfLine: 'lf', // Unix line endings for cross-platform
+  quoteProps: 'as-needed', // Only quote props when needed
 
   // File extensions to format
   overrides: [
@@ -25,9 +27,32 @@ module.exports = {
       },
     },
     {
+      // React Native component files
+      files: ['**/components/**/*.{ts,tsx}', '**/screens/**/*.{ts,tsx}'],
+      options: {
+        printWidth: 100, // Slightly wider for component files
+      },
+    },
+    {
+      // StyleSheet files
+      files: ['**/*.styles.{ts,tsx}', '**/styles/**/*.{ts,tsx}'],
+      options: {
+        printWidth: 120, // Wider for style objects
+      },
+    },
+    {
       files: ['*.json'],
       options: {
         parser: 'json',
+        trailingComma: 'none',
+      },
+    },
+    {
+      // app.json and expo configuration
+      files: ['app.json', 'expo.json', 'eas.json'],
+      options: {
+        parser: 'json',
+        tabWidth: 2,
         trailingComma: 'none',
       },
     },
