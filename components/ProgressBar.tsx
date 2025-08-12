@@ -13,15 +13,13 @@ import Animated, {
   useSharedValue,
   runOnJS,
 } from "react-native-reanimated";
+import { useScreenWidth } from "@/hooks";
 
 interface ProgressBarProps {
   currentTimeMs: number;
   durationMs: number;
   onSeek: (timeMs: number) => void;
 }
-
-const { width: screenWidth } = Dimensions.get("window");
-const SLIDER_WIDTH = screenWidth - 40; // Account for padding
 const THUMB_SIZE = 20;
 
 export const ProgressBar: FC<ProgressBarProps> = ({
@@ -29,6 +27,8 @@ export const ProgressBar: FC<ProgressBarProps> = ({
   durationMs,
   onSeek,
 }) => {
+  const screenWidth = useScreenWidth();
+  const sliderWidth = useMemo(() => screenWidth - 40, [screenWidth]);
   const translateX = useSharedValue(0);
   const isDragging = useSharedValue(false);
 
@@ -41,9 +41,9 @@ export const ProgressBar: FC<ProgressBarProps> = ({
   // Update translateX when not dragging
   useEffect(() => {
     if (!isDragging.value) {
-      translateX.value = progress * (SLIDER_WIDTH - THUMB_SIZE);
+      translateX.value = progress * (sliderWidth - THUMB_SIZE);
     }
-  }, [progress, isDragging.value, translateX]);
+  }, [progress, isDragging.value, translateX, sliderWidth]);
 
   const formatTime = useCallback((ms: number) => {
     const totalSeconds = Math.floor(ms / 1000);
@@ -54,12 +54,12 @@ export const ProgressBar: FC<ProgressBarProps> = ({
 
   const handleSeek = useCallback(
     (x: number) => {
-      const clampedX = Math.max(0, Math.min(x, SLIDER_WIDTH - THUMB_SIZE));
-      const progressValue = clampedX / (SLIDER_WIDTH - THUMB_SIZE);
+      const clampedX = Math.max(0, Math.min(x, sliderWidth - THUMB_SIZE));
+      const progressValue = clampedX / (sliderWidth - THUMB_SIZE);
       const timeMs = progressValue * durationMs;
       onSeek(timeMs);
     },
-    [durationMs, onSeek],
+    [durationMs, onSeek, sliderWidth],
   );
 
   const panGestureHandler = useAnimatedGestureHandler<
@@ -72,7 +72,7 @@ export const ProgressBar: FC<ProgressBarProps> = ({
     },
     onActive: (event, context) => {
       const newX = context.startX + event.translationX;
-      const clampedX = Math.max(0, Math.min(newX, SLIDER_WIDTH - THUMB_SIZE));
+      const clampedX = Math.max(0, Math.min(newX, sliderWidth - THUMB_SIZE));
       translateX.value = clampedX;
     },
     onEnd: () => {
@@ -85,7 +85,7 @@ export const ProgressBar: FC<ProgressBarProps> = ({
     useAnimatedGestureHandler<TapGestureHandlerGestureEvent>({
       onEnd: (event) => {
         const tapX = event.x - THUMB_SIZE / 2;
-        const clampedX = Math.max(0, Math.min(tapX, SLIDER_WIDTH - THUMB_SIZE));
+        const clampedX = Math.max(0, Math.min(tapX, sliderWidth - THUMB_SIZE));
         translateX.value = clampedX;
         runOnJS(handleSeek)(clampedX);
       },
@@ -127,6 +127,7 @@ export const ProgressBar: FC<ProgressBarProps> = ({
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
     paddingVertical: 15,
     paddingHorizontal: 20,
   },
@@ -148,7 +149,6 @@ const styles = StyleSheet.create({
     height: 4,
     backgroundColor: "#E5E5E5",
     borderRadius: 2,
-    width: SLIDER_WIDTH,
     position: "relative",
   },
   progress: {
