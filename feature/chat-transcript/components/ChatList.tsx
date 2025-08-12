@@ -20,7 +20,12 @@ export const ChatList: FC<ChatListProps> = ({ list, activeMessageId }) => {
   );
 
   // Use the auto-scroll hook
-  const { flatListRef, isUserScrolling, handleScroll, handleScrollToIndexFailed } = useAutoScroll({
+  const {
+    flatListRef,
+    isUserScrolling,
+    handleScroll,
+    handleScrollToIndexFailed,
+  } = useAutoScroll({
     activeIndex: activeMessageIndex,
     scrollThreshold: 50,
     autoScrollDisableDuration: 3000,

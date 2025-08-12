@@ -1,5 +1,9 @@
-import { useRef, useEffect, useState, useCallback } from "react";
-import { FlatList, NativeScrollEvent, NativeSyntheticEvent } from "react-native";
+import { useRef, useEffect, useState, useCallback, RefObject } from "react";
+import {
+  FlatList,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from "react-native";
 
 interface UseAutoScrollConfig {
   activeIndex: number;
@@ -9,7 +13,7 @@ interface UseAutoScrollConfig {
 }
 
 interface UseAutoScrollReturn {
-  flatListRef: React.RefObject<FlatList | null>;
+  flatListRef: RefObject<FlatList | null>;
   isUserScrolling: boolean;
   handleScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   handleScrollToIndexFailed: (info: {
@@ -40,7 +44,8 @@ export const useAutoScroll = ({
       // Only consider it user scrolling if they moved more than threshold
       // and it's not from our auto-scroll
       const timeSinceAutoScroll = Date.now() - lastAutoScrollTimeRef.current;
-      const isFromAutoScroll = timeSinceAutoScroll < scrollAnimationDuration + 100;
+      const isFromAutoScroll =
+        timeSinceAutoScroll < scrollAnimationDuration + 100;
 
       if (scrollDelta > scrollThreshold && !isFromAutoScroll) {
         setIsUserScrolling(true);
@@ -58,7 +63,12 @@ export const useAutoScroll = ({
 
       setLastScrollY(currentY);
     },
-    [lastScrollY, scrollThreshold, autoScrollDisableDuration, scrollAnimationDuration],
+    [
+      lastScrollY,
+      scrollThreshold,
+      autoScrollDisableDuration,
+      scrollAnimationDuration,
+    ],
   );
 
   // Handle scroll to index failures
