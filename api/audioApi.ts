@@ -10,11 +10,22 @@ type audioApiType = {
 
 export const audioApi: audioApiType = {
   getAudioTranscript: async () => {
-    await rootAPI();
-    return audioTranscriptRes as TranscriptMetadata;
+    try {
+      await rootAPI();
+      return audioTranscriptRes as TranscriptMetadata;
+    } catch (err) {
+      console.error('Error fetching audio transcript:', err);
+      throw err;
+    }
   },
+
   getAudio: async () => {
-    await rootAPI();
-    return audioRes as unknown as number;
+    try {
+      await rootAPI();
+      return audioRes as unknown as number;
+    } catch (err) {
+      console.error('Error fetching audio file:', err);
+      throw err;
+    }
   },
 };
