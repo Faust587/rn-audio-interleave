@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { IconButton, ProgressBar } from "@/components";
-import { ArrowLeftSVG, ArrowRightSVG, PlaySVG } from "@/assets/svg";
+import { ArrowLeftSVG, ArrowRightSVG, PauseSVG, PlaySVG } from "@/assets/svg";
 import RepeatSVG from "@/assets/svg/RepeatSVG";
 import { useAudioControllers } from "@/feature/audio-player/hooks";
 
@@ -31,7 +31,7 @@ export const AudioPlayer = () => {
         </View>
         <IconButton icon={<ArrowLeftSVG />} onPress={handlePrevMsg} />
         <IconButton
-          icon={<PlaySVG />}
+          icon={isPlaying ? <PauseSVG /> : <PlaySVG />}
           onPress={isPlaying ? pause : play}
           backgroundColor="#8794FF33"
         />
