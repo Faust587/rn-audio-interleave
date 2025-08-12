@@ -5,7 +5,7 @@ import audioRes from "./mock/audio.mp3";
 
 type audioApiType = {
   getAudioTranscript: () => Promise<TranscriptMetadata>;
-  getAudio: () => unknown;
+  getAudio: () => Promise<number>;
 };
 
 export const audioApi: audioApiType = {
@@ -15,6 +15,6 @@ export const audioApi: audioApiType = {
   },
   getAudio: async () => {
     await rootAPI();
-    return audioRes;
+    return audioRes as unknown as number;
   },
 };

@@ -5,19 +5,18 @@ import { ChatItem } from "./ChatItem";
 
 type ChatListProps = {
   list: ChatMessage[];
+  activeMessageId?: string;
 };
 
 const keyExtractor = (item: ChatMessage) => item.id;
 const renderSeparator = () => <View style={styles.separator} />;
 
-export const ChatList: FC<ChatListProps> = ({ list }) => {
-  const activeId = list[0].id;
-
+export const ChatList: FC<ChatListProps> = ({ list, activeMessageId }) => {
   const renderItem = useCallback(
     ({ item }: { item: ChatMessage }) => {
-      return <ChatItem {...item} isActive={item.id === activeId} />;
+      return <ChatItem {...item} isActive={item.id === activeMessageId} />;
     },
-    [activeId],
+    [activeMessageId],
   );
 
   return (
@@ -27,7 +26,7 @@ export const ChatList: FC<ChatListProps> = ({ list }) => {
         renderItem={renderItem}
         ItemSeparatorComponent={renderSeparator}
         keyExtractor={keyExtractor}
-        extraData={activeId}
+        extraData={activeMessageId}
         removeClippedSubviews
       />
     </View>

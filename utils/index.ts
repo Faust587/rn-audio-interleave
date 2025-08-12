@@ -1,0 +1,1 @@
+export { getActiveMessage } from "./getActiveMessage";

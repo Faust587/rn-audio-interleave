@@ -4,10 +4,12 @@ import { ChatList } from "@/feature/chat-transcript/components";
 
 type ChatTranscriptComponentProps = {
   chatMessages: ChatMessage[];
+  activeMessageId?: string;
 };
 
 export const ChatTranscriptComponent: FC<ChatTranscriptComponentProps> = ({
   chatMessages,
+  activeMessageId,
 }) => {
-  return <ChatList list={chatMessages} />;
+  return <ChatList activeMessageId={activeMessageId} list={chatMessages} />;
 };
