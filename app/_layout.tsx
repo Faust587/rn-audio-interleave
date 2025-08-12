@@ -12,7 +12,13 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <SafeAreaView style={styles.container}>
-        <Stack screenOptions={{ headerShown: false }} />
+        <Stack
+          screenOptions={{
+            headerShown: true,
+            title: '',
+            headerShadowVisible: false,
+          }}
+        />
       </SafeAreaView>
     </SafeAreaProvider>
   );

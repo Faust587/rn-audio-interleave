@@ -1,9 +1,14 @@
 import { FC, useCallback } from 'react';
-import { ChatMessage } from '@/types';
+
 import { FlatList, StyleSheet, View } from 'react-native';
-import { ChatItem } from './ChatItem';
-import { useAutoScroll } from '../hooks';
+
 import { ScrollIndicator } from '@/components';
+import { Colors } from '@/const';
+import { ChatMessage } from '@/types';
+
+import { useAutoScroll } from '../hooks';
+
+import { ChatItem } from './ChatItem';
 
 type ChatListProps = {
   list: ChatMessage[];
@@ -51,7 +56,8 @@ export const ChatList: FC<ChatListProps> = ({ list, activeMessageId }) => {
           index,
         })}
         showsVerticalScrollIndicator={true}
-        contentContainerStyle={styles.contentContainer}
+        ListHeaderComponent={<View style={styles.listPaddings} />}
+        ListFooterComponent={<View style={styles.listPaddings} />}
       />
       <ScrollIndicator isUserScrolling={isUserScrolling} />
     </View>
@@ -63,11 +69,9 @@ const styles = StyleSheet.create({
     height: 10,
   },
   wrapper: {
-    paddingVertical: 20,
     flex: 1,
   },
-  contentContainer: {
-    paddingHorizontal: 16,
-    paddingBottom: 20,
+  listPaddings: {
+    height: 20,
   },
 });

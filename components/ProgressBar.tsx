@@ -2,6 +2,8 @@ import { FC, useCallback, useEffect, useMemo } from 'react';
 
 import { StyleSheet, Text, View } from 'react-native';
 
+import { LinearGradient } from 'expo-linear-gradient';
+
 import {
   GestureHandlerRootView,
   PanGestureHandler,
@@ -105,20 +107,26 @@ export const ProgressBar: FC<ProgressBarProps> = ({ currentTimeMs, durationMs, o
 
   return (
     <GestureHandlerRootView style={styles.container}>
-      <View style={styles.timeContainer}>
-        <Text style={styles.timeText}>{formatTime(currentTimeMs)}</Text>
-        <Text style={styles.timeText}>{formatTime(durationMs)}</Text>
-      </View>
-
       <View style={styles.sliderContainer}>
         <TapGestureHandler onGestureEvent={tapGestureHandler}>
           <Animated.View style={styles.track}>
-            <Animated.View style={[styles.progress, progressStyle]} />
+            <Animated.View style={[styles.progressContainer, progressStyle]}>
+              <LinearGradient
+                colors={['#DBA60466', '#DBA604']} // 0.4 opacity to solid
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                style={styles.progressGradient}
+              />
+            </Animated.View>
             <PanGestureHandler onGestureEvent={panGestureHandler}>
               <Animated.View style={[styles.thumb, thumbStyle]} />
             </PanGestureHandler>
           </Animated.View>
         </TapGestureHandler>
+      </View>
+      <View style={styles.timeContainer}>
+        <Text style={styles.timeText}>{formatTime(currentTimeMs)}</Text>
+        <Text style={styles.timeText}>{formatTime(durationMs)}</Text>
       </View>
     </GestureHandlerRootView>
   );
@@ -150,18 +158,22 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     position: 'relative',
   },
-  progress: {
+  progressContainer: {
     height: 4,
-    backgroundColor: Colors.primary,
     borderRadius: 2,
     position: 'absolute',
     top: 0,
     left: 0,
+    overflow: 'hidden',
+  },
+  progressGradient: {
+    flex: 1,
+    borderRadius: 2,
   },
   thumb: {
     width: THUMB_SIZE,
     height: THUMB_SIZE,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.gold,
     borderRadius: THUMB_SIZE / 2,
     position: 'absolute',
     top: -8,

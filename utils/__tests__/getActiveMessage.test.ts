@@ -1,5 +1,5 @@
-import { getActiveMessage } from '@/utils/index';
 import { FORMATTED_CHAT } from '@/test-data/speakers.mock';
+import { getActiveMessage } from '@/utils';
 import { getActiveMessageIndex } from '@/utils/getActiveMessage';
 
 describe('getActiveMessage – provided sample', () => {

@@ -5,7 +5,9 @@ export const Colors = {
   // Primary colors
   primary: '#8794FF',
   primaryLight: '#8794FF33',
-  primaryBackground: '#E8EDFF',
+  primaryBackground: '#FAFAFA',
+  border: '#F2EEF6',
+  gold: '#DBA604',
 
   // Neutral colors
   white: '#FFFFFF',
