@@ -1,4 +1,4 @@
-import { ChatMessage, Speaker } from "@/types/index";
+import { ChatMessage, Speaker } from "@/types";
 
 /**
  * Merges and interleaves phrases from multiple speakers into a single chat timeline.

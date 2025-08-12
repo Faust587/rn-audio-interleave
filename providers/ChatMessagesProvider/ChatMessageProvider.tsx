@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, useCallback, useMemo, useState } from "react";
 import { ChatMessageContext } from "./ChatMessageProvider.context";
-import { ChatMessage } from "@/types/index";
+import { ChatMessage } from "@/types";
 import { useAudioPlayer } from "@/providers/AudioPlayerProvider/AudioPlayerProvider.hooks";
 import { audioApi } from "@/api/audioApi";
 import { formatMessages } from "@/feature/chat-transcript/ChatTranscript.utils";

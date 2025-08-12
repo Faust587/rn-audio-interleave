@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useChatMessages } from "@/providers/ChatMessagesProvider/index";
+import { useChatMessages } from "@/providers/ChatMessagesProvider";
 
 export const useData = () => {
   const { chatMessages, fetchChatMessages, error, isLoading } =

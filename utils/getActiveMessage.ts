@@ -1,4 +1,4 @@
-import { ChatMessage } from "@/types/index";
+import { ChatMessage } from "@/types";
 
 export const getActiveMessage = (
   currentTimeMs: number,

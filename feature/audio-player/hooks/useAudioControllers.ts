@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
-import { useAudioPlayer } from "@/providers/AudioPlayerProvider/index";
+import { useAudioPlayer } from "@/providers/AudioPlayerProvider";
 import { getActiveMessageIndex } from "@/utils/getActiveMessage";
-import { useChatMessages } from "@/providers/ChatMessagesProvider/index";
+import { useChatMessages } from "@/providers/ChatMessagesProvider";
 import {
   DEFAULT_AUDIO_RATE,
   AUDIO_SLOWED_RATE,

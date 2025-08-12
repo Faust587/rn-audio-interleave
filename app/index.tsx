@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { ChatTranscript } from "@/feature/chat-transcript";
 import { AudioPlayerProvider } from "@/providers/AudioPlayerProvider/AudioPlayerProvider";
 import { AudioPlayer } from "@/feature/audio-player";
-import { ChatMessageProvider } from "@/providers/ChatMessagesProvider/index";
+import { ChatMessageProvider } from "@/providers/ChatMessagesProvider";
 
 export default function Index() {
   return (
