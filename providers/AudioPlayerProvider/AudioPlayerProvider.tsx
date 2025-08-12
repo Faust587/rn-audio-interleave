@@ -13,6 +13,7 @@ import { AudioPlayerContext } from "./AudioPlayerProvider.context";
 export const AudioPlayerProvider: FC<PropsWithChildren> = ({ children }) => {
   const soundRef = useRef<Audio.Sound | null>(null);
   const [currentTimeMs, setCurrentTimeMs] = useState(0);
+  const [durationMs, setDurationMs] = useState(0);
 
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -30,6 +31,9 @@ export const AudioPlayerProvider: FC<PropsWithChildren> = ({ children }) => {
       const s = status;
       setCurrentTimeMs(s.positionMillis);
       setIsPlaying(s.isPlaying);
+      if (s.durationMillis) {
+        setDurationMs(s.durationMillis);
+      }
     });
   }, []);
 
@@ -68,6 +72,9 @@ export const AudioPlayerProvider: FC<PropsWithChildren> = ({ children }) => {
         const s = status;
         setCurrentTimeMs(s.positionMillis);
         setIsPlaying(s.isPlaying);
+        if (s.durationMillis) {
+          setDurationMs(s.durationMillis);
+        }
       });
     }
   }, []);
@@ -89,6 +96,7 @@ export const AudioPlayerProvider: FC<PropsWithChildren> = ({ children }) => {
   const value = useMemo(
     () => ({
       currentTimeMs,
+      durationMs,
       isPlaying,
       load,
       play,
@@ -96,7 +104,16 @@ export const AudioPlayerProvider: FC<PropsWithChildren> = ({ children }) => {
       seek,
       setAudioRate,
     }),
-    [currentTimeMs, isPlaying, load, play, pause, seek, setAudioRate],
+    [
+      currentTimeMs,
+      durationMs,
+      isPlaying,
+      load,
+      play,
+      pause,
+      seek,
+      setAudioRate,
+    ],
   );
 
   return (

@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { IconButton } from "@/components";
+import { IconButton, ProgressBar } from "@/components";
 import { ArrowLeftSVG, ArrowRightSVG, PlaySVG } from "@/assets/svg";
 import RepeatSVG from "@/assets/svg/RepeatSVG";
 import { useAudioControllers } from "@/feature/audio-player/hooks";
@@ -9,13 +9,22 @@ export const AudioPlayer = () => {
     isPlaying,
     play,
     pause,
+    seek,
+    currentTimeMs,
+    durationMs,
     handleNextMsg,
     handlePrevMsg,
     handleRepeatLastMsg,
   } = useAudioControllers();
   return (
     <View style={styles.container}>
-      <View style={styles.progressBarWrapper}></View>
+      <View style={styles.progressBarWrapper}>
+        <ProgressBar
+          currentTimeMs={currentTimeMs}
+          durationMs={durationMs}
+          onSeek={seek}
+        />
+      </View>
       <View style={styles.controlsContainer}>
         <View style={styles.invisibleSlug}>
           <IconButton icon={<RepeatSVG />} disabled />
@@ -35,12 +44,11 @@ export const AudioPlayer = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 70,
-
+    padding: 10,
     backgroundColor: "#fff",
   },
   progressBarWrapper: {
-    flex: 1,
+    // Progress bar has its own internal sizing
   },
   controlsContainer: {
     flexDirection: "row",

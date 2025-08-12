@@ -1,0 +1,178 @@
+import { useCallback, useMemo, FC, useEffect } from "react";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
+import {
+  PanGestureHandler,
+  TapGestureHandler,
+  GestureHandlerRootView,
+  PanGestureHandlerGestureEvent,
+  TapGestureHandlerGestureEvent,
+} from "react-native-gesture-handler";
+import Animated, {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  runOnJS,
+} from "react-native-reanimated";
+
+interface ProgressBarProps {
+  currentTimeMs: number;
+  durationMs: number;
+  onSeek: (timeMs: number) => void;
+}
+
+const { width: screenWidth } = Dimensions.get("window");
+const SLIDER_WIDTH = screenWidth - 40; // Account for padding
+const THUMB_SIZE = 20;
+
+export const ProgressBar: FC<ProgressBarProps> = ({
+  currentTimeMs,
+  durationMs,
+  onSeek,
+}) => {
+  const translateX = useSharedValue(0);
+  const isDragging = useSharedValue(false);
+
+  // Calculate progress based on current time and duration
+  const progress = useMemo(() => {
+    if (durationMs === 0) return 0;
+    return Math.min(currentTimeMs / durationMs, 1);
+  }, [currentTimeMs, durationMs]);
+
+  // Update translateX when not dragging
+  useEffect(() => {
+    if (!isDragging.value) {
+      translateX.value = progress * (SLIDER_WIDTH - THUMB_SIZE);
+    }
+  }, [progress, isDragging.value, translateX]);
+
+  const formatTime = useCallback((ms: number) => {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  }, []);
+
+  const handleSeek = useCallback(
+    (x: number) => {
+      const clampedX = Math.max(0, Math.min(x, SLIDER_WIDTH - THUMB_SIZE));
+      const progressValue = clampedX / (SLIDER_WIDTH - THUMB_SIZE);
+      const timeMs = progressValue * durationMs;
+      onSeek(timeMs);
+    },
+    [durationMs, onSeek],
+  );
+
+  const panGestureHandler = useAnimatedGestureHandler<
+    PanGestureHandlerGestureEvent,
+    { startX: number }
+  >({
+    onStart: (_, context) => {
+      context.startX = translateX.value;
+      isDragging.value = true;
+    },
+    onActive: (event, context) => {
+      const newX = context.startX + event.translationX;
+      const clampedX = Math.max(0, Math.min(newX, SLIDER_WIDTH - THUMB_SIZE));
+      translateX.value = clampedX;
+    },
+    onEnd: () => {
+      isDragging.value = false;
+      runOnJS(handleSeek)(translateX.value);
+    },
+  });
+
+  const tapGestureHandler =
+    useAnimatedGestureHandler<TapGestureHandlerGestureEvent>({
+      onEnd: (event) => {
+        const tapX = event.x - THUMB_SIZE / 2;
+        const clampedX = Math.max(0, Math.min(tapX, SLIDER_WIDTH - THUMB_SIZE));
+        translateX.value = clampedX;
+        runOnJS(handleSeek)(clampedX);
+      },
+    });
+
+  const thumbStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: translateX.value }],
+    };
+  });
+
+  const progressStyle = useAnimatedStyle(() => {
+    const width = translateX.value + THUMB_SIZE / 2;
+    return {
+      width: Math.max(0, width),
+    };
+  });
+
+  return (
+    <GestureHandlerRootView style={styles.container}>
+      <View style={styles.timeContainer}>
+        <Text style={styles.timeText}>{formatTime(currentTimeMs)}</Text>
+        <Text style={styles.timeText}>{formatTime(durationMs)}</Text>
+      </View>
+
+      <View style={styles.sliderContainer}>
+        <TapGestureHandler onGestureEvent={tapGestureHandler}>
+          <Animated.View style={styles.track}>
+            <Animated.View style={[styles.progress, progressStyle]} />
+            <PanGestureHandler onGestureEvent={panGestureHandler}>
+              <Animated.View style={[styles.thumb, thumbStyle]} />
+            </PanGestureHandler>
+          </Animated.View>
+        </TapGestureHandler>
+      </View>
+    </GestureHandlerRootView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+  },
+  timeContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  timeText: {
+    fontSize: 12,
+    color: "#666",
+    fontWeight: "500",
+  },
+  sliderContainer: {
+    height: 40,
+    justifyContent: "center",
+  },
+  track: {
+    height: 4,
+    backgroundColor: "#E5E5E5",
+    borderRadius: 2,
+    width: SLIDER_WIDTH,
+    position: "relative",
+  },
+  progress: {
+    height: 4,
+    backgroundColor: "#8794FF",
+    borderRadius: 2,
+    position: "absolute",
+    top: 0,
+    left: 0,
+  },
+  thumb: {
+    width: THUMB_SIZE,
+    height: THUMB_SIZE,
+    backgroundColor: "#8794FF",
+    borderRadius: THUMB_SIZE / 2,
+    position: "absolute",
+    top: -8,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+});

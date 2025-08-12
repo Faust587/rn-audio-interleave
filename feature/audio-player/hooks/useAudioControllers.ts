@@ -11,7 +11,7 @@ import {
 export const useAudioControllers = () => {
   const slowedMsg = useRef<number>(null);
 
-  const { play, isPlaying, pause, seek, currentTimeMs, setAudioRate } =
+  const { play, isPlaying, pause, seek, currentTimeMs, durationMs, setAudioRate } =
     useAudioPlayer();
   const { chatMessages } = useChatMessages();
 
@@ -72,6 +72,8 @@ export const useAudioControllers = () => {
     pause,
     seek,
     isPlaying,
+    currentTimeMs,
+    durationMs,
     handleNextMsg,
     handlePrevMsg,
     handleRepeatLastMsg,
