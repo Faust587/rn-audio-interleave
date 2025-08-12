@@ -1,2 +1,2 @@
-export { useData } from "./useData";
-export { useAutoScroll } from "./useAutoScroll";
+export { useData } from './useData';
+export { useAutoScroll } from './useAutoScroll';

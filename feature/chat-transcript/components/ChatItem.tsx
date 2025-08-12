@@ -1,6 +1,6 @@
-import { FC, memo } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { ChatMessage } from "@/types";
+import { FC, memo } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { ChatMessage } from '@/types';
 
 type ChatItemProps = ChatMessage & { isActive?: boolean };
 
@@ -39,19 +39,19 @@ const styles = StyleSheet.create({
   messageContainer: {
     paddingHorizontal: 8,
     paddingVertical: 15.5,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 20,
   },
   activeMessageContainer: {
-    backgroundColor: "#E1E4FF",
+    backgroundColor: '#E1E4FF',
   },
   rightMessageContainer: {
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end',
   },
   leftMessageContainer: {
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
   },
   rightLabel: {
-    textAlign: "right",
+    textAlign: 'right',
   },
 });

@@ -1,8 +1,8 @@
-import { StyleSheet, View } from "react-native";
-import { IconButton, ProgressBar } from "@/components";
-import { ArrowLeftSVG, ArrowRightSVG, PauseSVG, PlaySVG } from "@/assets/svg";
-import RepeatSVG from "@/assets/svg/RepeatSVG";
-import { useAudioControllers } from "@/feature/audio-player/hooks";
+import { StyleSheet, View } from 'react-native';
+import { IconButton, ProgressBar } from '@/components';
+import { ArrowLeftSVG, ArrowRightSVG, PauseSVG, PlaySVG } from '@/assets/svg';
+import RepeatSVG from '@/assets/svg/RepeatSVG';
+import { useAudioControllers } from '@/feature/audio-player/hooks';
 
 export const AudioPlayer = () => {
   const {
@@ -45,15 +45,15 @@ export const AudioPlayer = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   progressBarWrapper: {
     // Progress bar has its own internal sizing
   },
   controlsContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     gap: 15,
   },
   invisibleSlug: {

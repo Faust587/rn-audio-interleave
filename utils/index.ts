@@ -1,1 +1,1 @@
-export { getActiveMessage } from "./getActiveMessage";
+export { getActiveMessage } from './getActiveMessage';

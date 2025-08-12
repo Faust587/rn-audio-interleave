@@ -1,9 +1,9 @@
-import { FC, PropsWithChildren, useCallback, useMemo, useState } from "react";
-import { ChatMessageContext } from "./ChatMessageProvider.context";
-import { ChatMessage } from "@/types";
-import { useAudioPlayer } from "@/providers/AudioPlayerProvider/AudioPlayerProvider.hooks";
-import { audioApi } from "@/api/audioApi";
-import { formatMessages } from "@/feature/chat-transcript/ChatTranscript.utils";
+import { FC, PropsWithChildren, useCallback, useMemo, useState } from 'react';
+import { ChatMessageContext } from './ChatMessageProvider.context';
+import { ChatMessage } from '@/types';
+import { useAudioPlayer } from '@/providers/AudioPlayerProvider/AudioPlayerProvider.hooks';
+import { audioApi } from '@/api/audioApi';
+import { formatMessages } from '@/feature/chat-transcript/ChatTranscript.utils';
 
 export const ChatMessageProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,7 +14,7 @@ export const ChatMessageProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const fetchChatMessages = useCallback(async () => {
     try {
-      setError("");
+      setError('');
       setIsLoading(true);
 
       const [audioRes, audioTranscriptRes] = await Promise.all([
@@ -32,7 +32,7 @@ export const ChatMessageProvider: FC<PropsWithChildren> = ({ children }) => {
       setChatMessages(formattedMessages);
     } catch (e) {
       console.error(e);
-      setError("Unable to parse messages");
+      setError('Unable to parse messages');
     } finally {
       setIsLoading(false);
     }

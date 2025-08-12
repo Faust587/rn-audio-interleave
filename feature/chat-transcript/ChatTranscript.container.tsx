@@ -1,10 +1,10 @@
-import { FC, useMemo } from "react";
-import { useData } from "@/feature/chat-transcript/hooks";
-import { Text, View, StyleSheet } from "react-native";
-import { ChatTranscriptComponent } from "@/feature/chat-transcript/ChatTranscript.component";
-import { useAudioPlayer } from "@/providers/AudioPlayerProvider/AudioPlayerProvider.hooks";
-import { getActiveMessage } from "@/utils/getActiveMessage";
-import { ChatSkeleton, LoadingIndicator } from "@/components";
+import { FC, useMemo } from 'react';
+import { useData } from '@/feature/chat-transcript/hooks';
+import { Text, View, StyleSheet } from 'react-native';
+import { ChatTranscriptComponent } from '@/feature/chat-transcript/ChatTranscript.component';
+import { useAudioPlayer } from '@/providers/AudioPlayerProvider/AudioPlayerProvider.hooks';
+import { getActiveMessage } from '@/utils/getActiveMessage';
+import { ChatSkeleton, LoadingIndicator } from '@/components';
 
 export const ChatTranscriptContainer: FC = () => {
   const { isLoading, error, chatMessages } = useData();
@@ -54,39 +54,39 @@ export const ChatTranscriptContainer: FC = () => {
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
-    position: "relative",
+    position: 'relative',
   },
   loadingIndicatorContainer: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 30,
     left: 0,
     right: 0,
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
     paddingVertical: 16,
   },
   errorContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 20,
   },
   errorText: {
     fontSize: 16,
-    color: "#FF6B6B",
-    textAlign: "center",
-    fontWeight: "500",
+    color: '#FF6B6B',
+    textAlign: 'center',
+    fontWeight: '500',
   },
   emptyContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 20,
   },
   emptyText: {
     fontSize: 16,
-    color: "#666",
-    textAlign: "center",
-    fontWeight: "500",
+    color: '#666',
+    textAlign: 'center',
+    fontWeight: '500',
   },
 });

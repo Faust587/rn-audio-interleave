@@ -1,9 +1,9 @@
-import { getActiveMessage } from "@/utils/index";
-import { FORMATTED_CHAT } from "@/test-data/speakers.mock";
-import { getActiveMessageIndex } from "@/utils/getActiveMessage";
+import { getActiveMessage } from '@/utils/index';
+import { FORMATTED_CHAT } from '@/test-data/speakers.mock';
+import { getActiveMessageIndex } from '@/utils/getActiveMessage';
 
-describe("getActiveMessage – provided sample", () => {
-  it("get right message entity by timeline", () => {
+describe('getActiveMessage – provided sample', () => {
+  it('get right message entity by timeline', () => {
     const resultWithMessage = getActiveMessage(1500, FORMATTED_CHAT);
     expect(resultWithMessage).toEqual(FORMATTED_CHAT[0]);
   });
@@ -13,7 +13,7 @@ describe("getActiveMessage – provided sample", () => {
     expect(resultWithMessage).toEqual(undefined);
   });
 
-  it("get right message index by timeline", () => {
+  it('get right message index by timeline', () => {
     const resultWithMessage = getActiveMessageIndex(1500, FORMATTED_CHAT);
     expect(resultWithMessage).toEqual(0);
   });

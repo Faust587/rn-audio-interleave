@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useRef } from "react";
-import { useAudioPlayer } from "@/providers/AudioPlayerProvider";
-import { getActiveMessageIndex } from "@/utils/getActiveMessage";
-import { useChatMessages } from "@/providers/ChatMessagesProvider";
+import { useEffect, useMemo, useRef } from 'react';
+import { useAudioPlayer } from '@/providers/AudioPlayerProvider';
+import { getActiveMessageIndex } from '@/utils/getActiveMessage';
+import { useChatMessages } from '@/providers/ChatMessagesProvider';
 import {
   DEFAULT_AUDIO_RATE,
   AUDIO_SLOWED_RATE,
   DEBOUNCE_DIFF_RATE_MS,
-} from "@/const/player";
+} from '@/const/player';
 
 export const useAudioControllers = () => {
   const slowedMsg = useRef<number>(null);
