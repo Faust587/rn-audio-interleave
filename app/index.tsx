@@ -1,5 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 import { Colors } from '@/const';
 import { AudioPlayer } from '@/feature/audio-player';
 import { ChatTranscript } from '@/feature/chat-transcript';
@@ -8,17 +10,19 @@ import { ChatMessageProvider } from '@/providers/ChatMessagesProvider';
 
 export default function Index() {
   return (
-    <AudioPlayerProvider>
-      <ChatMessageProvider>
-        <View style={styles.container}>
-          <View style={styles.shadowTop} />
-          <View style={styles.chatWrapper}>
-            <ChatTranscript />
+    <GestureHandlerRootView style={styles.container}>
+      <AudioPlayerProvider>
+        <ChatMessageProvider>
+          <View style={styles.container}>
+            <View style={styles.shadowTop} />
+            <View style={styles.chatWrapper}>
+              <ChatTranscript />
+            </View>
+            <AudioPlayer />
           </View>
-          <AudioPlayer />
-        </View>
-      </ChatMessageProvider>
-    </AudioPlayerProvider>
+        </ChatMessageProvider>
+      </AudioPlayerProvider>
+    </GestureHandlerRootView>
   );
 }
 
