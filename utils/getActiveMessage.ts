@@ -13,7 +13,9 @@ export const getActiveMessageIndex = (
   currentTimeMs: number,
   messages: ChatMessage[],
 ): number | undefined => {
-  return messages?.findIndex(msg => {
+  const index = messages?.findIndex(msg => {
     return msg.endTime > currentTimeMs && msg.startTime <= currentTimeMs;
   });
+
+  return index === -1 ? messages.length - 1 : index;
 };
