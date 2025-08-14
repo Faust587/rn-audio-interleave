@@ -12,7 +12,6 @@ import { isNumber } from '@/utils/index';
 
 export const useAudioControllers = () => {
   const slowedMsg = useRef<number>(null);
-
   const {
     play,
     isPlaying,
@@ -36,14 +35,9 @@ export const useAudioControllers = () => {
   };
 
   useEffect(() => {
-    if (slowedMsg.current === null) return;
+    if (slowedMsg.current === null || pauseMs === null) return;
 
-    // If active message changed and it's not the slowed message, reset to normal rate
-    if (activeMsgIndex !== slowedMsg.current) {
-      setAudioRate(DEFAULT_AUDIO_RATE).then(() => (slowedMsg.current = null));
-    }
-
-    // Additional check: if we're within the slowed message but close to its end
+    // Check: if we're within the slowed message but close to its end
     if (
       isNumber(activeMsgIndex) &&
       activeMsgIndex === slowedMsg.current &&
