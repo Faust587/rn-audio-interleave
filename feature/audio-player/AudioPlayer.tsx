@@ -1,8 +1,10 @@
 import { StyleSheet, View } from 'react-native';
-import { IconButton, ProgressBar } from '@/components';
+
 import { ArrowLeftSVG, ArrowRightSVG, PauseSVG, PlaySVG } from '@/assets/svg';
 import RepeatSVG from '@/assets/svg/RepeatSVG';
+import { IconButton, ProgressBar } from '@/components';
 import { useAudioControllers } from '@/feature/audio-player/hooks';
+import { useChatMessages } from '@/providers/ChatMessagesProvider/index';
 
 export const AudioPlayer = () => {
   const {
@@ -16,6 +18,8 @@ export const AudioPlayer = () => {
     handlePrevMsg,
     handleRepeatLastMsg,
   } = useAudioControllers();
+  const { isLoading } = useChatMessages();
+
   return (
     <View style={styles.container}>
       <View style={styles.progressBarWrapper}>
@@ -29,14 +33,27 @@ export const AudioPlayer = () => {
         <View style={styles.invisibleSlug}>
           <IconButton icon={<RepeatSVG />} disabled />
         </View>
-        <IconButton icon={<ArrowLeftSVG />} onPress={handlePrevMsg} />
+        <IconButton
+          icon={<ArrowLeftSVG />}
+          onPress={handlePrevMsg}
+          disabled={isLoading}
+        />
         <IconButton
           icon={isPlaying ? <PauseSVG /> : <PlaySVG />}
           onPress={isPlaying ? pause : play}
           backgroundColor="#8794FF33"
+          disabled={isLoading}
         />
-        <IconButton icon={<ArrowRightSVG />} onPress={handleNextMsg} />
-        <IconButton icon={<RepeatSVG />} onPress={handleRepeatLastMsg} />
+        <IconButton
+          icon={<ArrowRightSVG />}
+          onPress={handleNextMsg}
+          disabled={isLoading}
+        />
+        <IconButton
+          icon={<RepeatSVG />}
+          onPress={handleRepeatLastMsg}
+          disabled={isLoading}
+        />
       </View>
     </View>
   );
