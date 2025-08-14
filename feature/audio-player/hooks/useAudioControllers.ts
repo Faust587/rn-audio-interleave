@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { useAudioPlayer } from '@/providers/AudioPlayerProvider';
-import { getActiveMessageIndex } from '@/utils/getActiveMessage';
-import { useChatMessages } from '@/providers/ChatMessagesProvider';
+
 import {
-  DEFAULT_AUDIO_RATE,
   AUDIO_SLOWED_RATE,
   DEBOUNCE_DIFF_RATE_MS,
+  DEFAULT_AUDIO_RATE,
 } from '@/const/player';
+import { useAudioPlayer } from '@/providers/AudioPlayerProvider';
+import { useChatMessages } from '@/providers/ChatMessagesProvider';
+import { getActiveMessageIndex } from '@/utils/getActiveMessage';
+import { isNumber } from '@/utils/index';
 
 export const useAudioControllers = () => {
   const slowedMsg = useRef<number>(null);
@@ -20,7 +22,7 @@ export const useAudioControllers = () => {
     durationMs,
     setAudioRate,
   } = useAudioPlayer();
-  const { chatMessages } = useChatMessages();
+  const { chatMessages, pauseMs } = useChatMessages();
 
   const activeMsgIndex = useMemo(() => {
     if (!chatMessages) return null;
@@ -28,23 +30,38 @@ export const useAudioControllers = () => {
   }, [chatMessages, currentTimeMs]);
 
   const handleNextMsg = () => {
-    if (!chatMessages) return;
-    const currentMsg = getActiveMessageIndex(currentTimeMs, chatMessages);
-
-    if (!currentMsg) return;
-    const startTimeMs = chatMessages[currentMsg + 1].startTime;
+    if (!chatMessages || !isNumber(activeMsgIndex)) return;
+    const startTimeMs = chatMessages[activeMsgIndex + 1].startTime;
     seek(startTimeMs);
   };
 
   useEffect(() => {
+    if (slowedMsg.current === null) return;
+
+    // If active message changed and it's not the slowed message, reset to normal rate
     if (activeMsgIndex !== slowedMsg.current) {
-      setAudioRate(DEFAULT_AUDIO_RATE);
-      slowedMsg.current = null;
+      setAudioRate(DEFAULT_AUDIO_RATE).then(() => (slowedMsg.current = null));
     }
-  }, [activeMsgIndex, setAudioRate]);
+
+    // Additional check: if we're within the slowed message but close to its end
+    if (
+      isNumber(activeMsgIndex) &&
+      activeMsgIndex === slowedMsg.current &&
+      chatMessages &&
+      chatMessages[activeMsgIndex]
+    ) {
+      const currentMsg = chatMessages[activeMsgIndex];
+      const timeUntilEnd = currentMsg.endTime - currentTimeMs;
+
+      // If time until message end is less than pauseMs, return to normal rate
+      if (pauseMs && timeUntilEnd <= pauseMs) {
+        setAudioRate(DEFAULT_AUDIO_RATE).then(() => (slowedMsg.current = null));
+      }
+    }
+  }, [activeMsgIndex, setAudioRate, chatMessages, currentTimeMs, pauseMs]);
 
   const handlePrevMsg = () => {
-    if (!activeMsgIndex || !chatMessages) return;
+    if (!isNumber(activeMsgIndex) || !chatMessages) return;
 
     const isGoBack =
       currentTimeMs - chatMessages[activeMsgIndex].startTime <
@@ -52,12 +69,14 @@ export const useAudioControllers = () => {
 
     if (!isGoBack) {
       seek(chatMessages[activeMsgIndex].startTime);
+      play();
       return;
     }
 
     const prevMsg = chatMessages[activeMsgIndex - 1];
     if (!prevMsg) return;
     seek(prevMsg.startTime);
+    play();
   };
 
   const handleRepeatLastMsg = async () => {
@@ -66,12 +85,12 @@ export const useAudioControllers = () => {
 
     const prevMsg = chatMessages[activeMsgIndex - 1];
     if (!prevMsg) {
-      seek(chatMessages[activeMsgIndex].startTime);
+      await seek(chatMessages[activeMsgIndex].startTime);
       slowedMsg.current = activeMsgIndex;
       return;
     }
     slowedMsg.current = activeMsgIndex - 1;
-    seek(prevMsg.startTime);
+    await seek(prevMsg.startTime);
   };
 
   return {

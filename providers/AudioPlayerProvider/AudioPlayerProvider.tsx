@@ -7,7 +7,9 @@ import {
   useRef,
   useState,
 } from 'react';
+
 import { Audio } from 'expo-av';
+
 import { AudioPlayerContext } from './AudioPlayerProvider.context';
 
 export const AudioPlayerProvider: FC<PropsWithChildren> = ({ children }) => {

@@ -1,14 +1,17 @@
 import { FC, PropsWithChildren, useCallback, useMemo, useState } from 'react';
-import { ChatMessageContext } from './ChatMessageProvider.context';
-import { ChatMessage } from '@/types';
-import { useAudioPlayer } from '@/providers/AudioPlayerProvider/AudioPlayerProvider.hooks';
+
 import { audioApi } from '@/api/audioApi';
 import { formatMessages } from '@/feature/chat-transcript/ChatTranscript.utils';
+import { useAudioPlayer } from '@/providers/AudioPlayerProvider/AudioPlayerProvider.hooks';
+import { ChatMessage } from '@/types';
+
+import { ChatMessageContext } from './ChatMessageProvider.context';
 
 export const ChatMessageProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [chatMessages, setChatMessages] = useState<ChatMessage[] | null>(null);
+  const [pauseMs, setPauseMs] = useState<number | null>(null);
 
   const { load } = useAudioPlayer();
 
@@ -30,6 +33,7 @@ export const ChatMessageProvider: FC<PropsWithChildren> = ({ children }) => {
       );
 
       setChatMessages(formattedMessages);
+      setPauseMs(pause);
     } catch (e) {
       console.error(e);
       setError('Unable to parse messages');
@@ -44,8 +48,9 @@ export const ChatMessageProvider: FC<PropsWithChildren> = ({ children }) => {
       error,
       chatMessages,
       fetchChatMessages,
+      pauseMs,
     }),
-    [error, isLoading, chatMessages, fetchChatMessages],
+    [error, isLoading, chatMessages, fetchChatMessages, pauseMs],
   );
 
   return (

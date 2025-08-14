@@ -1,7 +1,7 @@
 import React from 'react';
+
 import { render, waitFor } from '@testing-library/react-native';
-import { ChatTranscriptContainer } from '../ChatTranscript.container';
-import { ChatTranscriptComponent } from '../ChatTranscript.component';
+
 import {
   AudioPlayerContext,
   AudioPlayerContextType,
@@ -11,6 +11,9 @@ import {
   ChatMessageContextType,
 } from '@/providers/ChatMessagesProvider/ChatMessageProvider.context';
 import { FORMATTED_CHAT } from '@/test-data/speakers.mock';
+
+import { ChatTranscriptComponent } from '../ChatTranscript.component';
+import { ChatTranscriptContainer } from '../ChatTranscript.container';
 
 jest.mock('@/api/audioApi', () => ({
   audioApi: {
@@ -65,6 +68,7 @@ const createMockChatMessageContext = (
   isLoading,
   error,
   fetchChatMessages: jest.fn(),
+  pauseMs: 250,
 });
 
 // Test wrapper component
@@ -343,7 +347,7 @@ describe('ChatTranscript Integration Tests - Message Highlighting', () => {
 
     it('should update highlighting when currentTimeMs changes during playback simulation', async () => {
       const chatContext = createMockChatMessageContext();
-      let currentTime = 0;
+      const currentTime = 0;
 
       // Create a dynamic audio context that we can update
       let audioContext = createMockAudioPlayerContext(currentTime);

@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+
 import { ChatMessage } from '@/types';
 
 export type ChatMessageContextType = {
@@ -6,6 +7,7 @@ export type ChatMessageContextType = {
   isLoading: boolean;
   error: string | null;
   fetchChatMessages: () => void;
+  pauseMs: number | null;
 };
 
 export const ChatMessageContext = createContext<ChatMessageContextType | null>(
