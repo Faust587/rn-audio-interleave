@@ -4,21 +4,24 @@ import { ArrowLeftSVG, ArrowRightSVG, PauseSVG, PlaySVG } from '@/assets/svg';
 import RepeatSVG from '@/assets/svg/RepeatSVG';
 import { IconButton, ProgressBar } from '@/components';
 import { useAudioControllers } from '@/feature/audio-player/hooks';
+import { useAudioController } from '@/hooks/useAudioController';
 import { useChatMessages } from '@/providers/ChatMessagesProvider/index';
 
 export const AudioPlayer = () => {
+  const { seek } = useAudioControllers();
+  const { isLoading, chatMessages } = useChatMessages();
   const {
+    controller: audioController,
     isPlaying,
-    play,
-    pause,
-    seek,
-    currentTimeMs,
-    durationMs,
-    handleNextMsg,
-    handlePrevMsg,
-    handleRepeatLastMsg,
-  } = useAudioControllers();
-  const { isLoading } = useChatMessages();
+    currentTime,
+    duration,
+  } = useAudioController({
+    chat: chatMessages ?? [],
+    src: require('../../api/mock/audio.mp3'),
+  });
+
+  const currentTimeMs = currentTime * 1000;
+  const durationMs = duration * 1000;
 
   return (
     <View style={styles.container}>
@@ -35,23 +38,23 @@ export const AudioPlayer = () => {
         </View>
         <IconButton
           icon={<ArrowLeftSVG />}
-          onPress={handlePrevMsg}
+          onPress={audioController.prev}
           disabled={isLoading}
         />
         <IconButton
           icon={isPlaying ? <PauseSVG /> : <PlaySVG />}
-          onPress={isPlaying ? pause : play}
+          onPress={isPlaying ? audioController.pause : audioController.play}
           backgroundColor="#8794FF33"
           disabled={isLoading}
         />
         <IconButton
           icon={<ArrowRightSVG />}
-          onPress={handleNextMsg}
+          onPress={audioController.next}
           disabled={isLoading}
         />
         <IconButton
           icon={<RepeatSVG />}
-          onPress={handleRepeatLastMsg}
+          onPress={audioController.repeatSlowerLastMsg}
           disabled={isLoading}
         />
       </View>

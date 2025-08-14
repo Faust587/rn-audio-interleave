@@ -1,10 +1,12 @@
 import { FC, useMemo } from 'react';
-import { useData } from '@/feature/chat-transcript/hooks';
-import { Text, View, StyleSheet } from 'react-native';
+
+import { StyleSheet, Text, View } from 'react-native';
+
+import { ChatSkeleton, LoadingIndicator } from '@/components';
 import { ChatTranscriptComponent } from '@/feature/chat-transcript/ChatTranscript.component';
+import { useData } from '@/feature/chat-transcript/hooks';
 import { useAudioPlayer } from '@/providers/AudioPlayerProvider/AudioPlayerProvider.hooks';
 import { getActiveMessage } from '@/utils/getActiveMessage';
-import { ChatSkeleton, LoadingIndicator } from '@/components';
 
 export const ChatTranscriptContainer: FC = () => {
   const { isLoading, error, chatMessages } = useData();
