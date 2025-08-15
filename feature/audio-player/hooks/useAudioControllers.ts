@@ -30,13 +30,18 @@ export const useAudioControllers = () => {
 
   const handleNextMsg = () => {
     if (!chatMessages || !isNumber(activeMsgIndex)) return;
-    const startTimeMs = chatMessages[activeMsgIndex + 1].startTime;
-    seek(startTimeMs);
+    const nextMsg = chatMessages[activeMsgIndex + 1] ?? chatMessages[0];
+
+    seek(nextMsg.startTime);
   };
 
   useEffect(() => {
     if (slowedMsg.current === null || pauseMs === null) return;
-
+    if (activeMsgIndex !== slowedMsg.current) {
+      setAudioRate(DEFAULT_AUDIO_RATE).then(() => {
+        slowedMsg.current = null;
+      });
+    }
     // Check: if we're within the slowed message but close to its end
     if (
       isNumber(activeMsgIndex) &&
@@ -49,14 +54,15 @@ export const useAudioControllers = () => {
 
       // If time until message end is less than pauseMs, return to normal rate
       if (pauseMs && timeUntilEnd <= pauseMs) {
-        setAudioRate(DEFAULT_AUDIO_RATE).then(() => (slowedMsg.current = null));
+        setAudioRate(DEFAULT_AUDIO_RATE).then(() => {
+          slowedMsg.current = null;
+        });
       }
     }
   }, [activeMsgIndex, setAudioRate, chatMessages, currentTimeMs, pauseMs]);
 
   const handlePrevMsg = () => {
     if (!isNumber(activeMsgIndex) || !chatMessages) return;
-
     const isGoBack =
       currentTimeMs - chatMessages[activeMsgIndex].startTime <
       DEBOUNCE_DIFF_RATE_MS;
